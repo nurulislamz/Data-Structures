@@ -83,19 +83,3 @@ class BalancedTree:
             print(curr.data)
 
             curr = curr.right
-
-    def pre_order_traversal_iter(self):
-        if self.root is None:
-            return
-
-        queue = deque()
-        curr = self.root
-        queue.append(curr)
-
-        while queue:
-            while curr is None:
-                queue.append(curr.left)
-                val  = queue.popleft()
-                print(val)
-
-            queue.append(curr.right)
