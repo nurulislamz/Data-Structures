@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class Node
 {
@@ -57,18 +59,62 @@ public class TreeMap
         }
     }
 
+    // dfs
     public void InOrderTraversal()
     {
         void InOrder(Node curr)
         {
-            while (curr != null)
-            {
-                InOrder(curr.left);
-                Console.WriteLine(curr.val);
-                InOrder(curr.left);
-            }
+            if (curr == null) return;
+            
+            InOrder(curr.left);
+            Console.WriteLine(curr.val);
+            InOrder(curr.right);
         }
         InOrder(root);
+    }
+    
+    public void InOrderTraversalIter()
+    {
+        Stack<Node> stack = new Stack<Node>();
+        Node curr = root;
+
+        while (curr is not null || stack.Count > 0)
+        {
+            while (curr is not null)
+            {
+                stack.Push(curr);
+                curr = curr.left;
+            }
+
+            curr = stack.Pop();
+            Console.WriteLine(curr.val);
+            
+            curr = curr.right;
+        }
+    }
+
+    public void BFS()
+    {
+        Queue<Node> queue = new Queue<Node>();
+
+        Node curr = root;
+        queue.Enqueue(curr);
+
+        while (queue.Count != 0)
+        {
+            curr = queue.Dequeue();
+            if (curr.left is not null)
+            {
+                queue.Enqueue(curr.left);
+            }
+
+            Console.WriteLine(curr.val);
+
+            if (curr.right is not null)
+            {
+                queue.Enqueue(curr.right);
+            }
+        }
     }
 }
 
@@ -83,9 +129,14 @@ class Program
         treeMap.Insert(1, 1);
         treeMap.Insert(3, 3);
 
-        Console.WriteLine(treeMap.root.val);
         Console.WriteLine(treeMap.root.left.val);
+        Console.WriteLine(treeMap.root.val);
         Console.WriteLine(treeMap.root.right.val);
+        
+        Console.WriteLine("-");
+        treeMap.InOrderTraversal();
+        Console.WriteLine("-");
+        treeMap.InOrderTraversalIter();
 
     }
 }
